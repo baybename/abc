@@ -1,25 +1,32 @@
-import java.io.*;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
-@WebServlet("/read-flag")
-public class ReadFlagServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+public class ExecuteCommand {
+    public static void main(String[] args) {
+        // Lệnh hệ thống để thực hiện
+        String command = "ls"; // Thay đổi thành "dir" nếu bạn đang sử dụng Windows
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String filePath = "/path/to/flag";  // Thay đổi đường dẫn đến tệp flag của bạn
+        try {
+            // Thực thi lệnh
+            Process process = Runtime.getRuntime().exec(command);
 
-        response.setContentType("text/plain");
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath));
-             PrintWriter out = response.getWriter()) {
+            // Đọc đầu ra của lệnh
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
             while ((line = reader.readLine()) != null) {
-                out.println(line);
+                System.out.println(line);
             }
-        } catch (IOException e) {
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error reading file");
+
+            // Đọc lỗi nếu có
+            BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+            while ((line = errorReader.readLine()) != null) {
+                System.err.println(line);
+            }
+
+            // Đợi lệnh thực thi xong
+            process.waitFor();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
